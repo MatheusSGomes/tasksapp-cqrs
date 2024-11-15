@@ -12,4 +12,15 @@
       <ProjectReference Include="..\Services\Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="UserCQ\Commands\" />
+      <Folder Include="UserCQ\Handlers\" />
+      <Folder Include="UserCQ\Validators\" />
+      <Folder Include="UserCQ\ViewModels\" />
+    </ItemGroup>
+
 </Project>
