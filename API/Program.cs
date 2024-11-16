@@ -1,4 +1,7 @@
 using Application.UserCQ.Commands;
+using Application.UserCQ.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +22,11 @@ builder.Services.AddDbContext<TasksDbContext>(options =>
 // Injeção do Command
 builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly));
+
+// AddValidatorsFromAssemblyContaining <ClasseQueContémValidador>
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
+// Usa os validadores no pipeline da requisição (validação do próprio ASP NET Core)
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 
