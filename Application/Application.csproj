@@ -17,10 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="UserCQ\Commands\" />
-      <Folder Include="UserCQ\Handlers\" />
       <Folder Include="UserCQ\Validators\" />
-      <Folder Include="UserCQ\ViewModels\" />
     </ItemGroup>
 
 </Project>
