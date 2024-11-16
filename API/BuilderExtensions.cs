@@ -1,3 +1,4 @@
+using Application.Mappings;
 using Application.UserCQ.Commands;
 using Application.UserCQ.Validators;
 using FluentValidation;
@@ -33,6 +34,10 @@ public static class BuilderExtensions
         builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
         // Usa os validadores no pipeline da requisição (validação do próprio ASP NET Core)
         builder.Services.AddFluentValidationAutoValidation();
+    }
 
+    public static void AddMapper(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAutoMapper(typeof(ProfileMappings).Assembly);
     }
 }
