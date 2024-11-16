@@ -25,8 +25,8 @@ public class CreateUserCommandHandler(TasksDbContext context) : IRequestHandler<
             RefreshTokenExpirationTime = DateTime.Now.AddDays(5)
         };
 
-        _context.Users.Add(user);
-        _context.SaveChanges();
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
 
         var userInfo = new UserInfoViewModel
         {
