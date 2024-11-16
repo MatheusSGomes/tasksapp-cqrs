@@ -1,3 +1,4 @@
+using Application.UserCQ.Commands;
 using Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,10 @@ builder.Services.AddSwaggerGen();
 // Configuração e injeção do serviço de banco de dados
 builder.Services.AddDbContext<TasksDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+// Injeção do Command
+builder.Services.AddMediatR(config =>
+    config.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly));
 
 var app = builder.Build();
 
