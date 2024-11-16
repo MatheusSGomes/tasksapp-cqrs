@@ -1,3 +1,4 @@
+using System.Reflection;
 using Application.Mappings;
 using Application.UserCQ.Commands;
 using Application.UserCQ.Validators;
@@ -14,6 +15,7 @@ public static class BuilderExtensions
     public static void AddSwaggerDocs(this WebApplicationBuilder builder)
     {
         builder.Services.AddSwaggerGen(options =>
+        {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
@@ -29,7 +31,10 @@ public static class BuilderExtensions
                     Name = "Exemplo de página de licença",
                     Url = new Uri("https://meusite.com/license")
                 }
-            }));
+            });
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
     }
 
     public static void AddServices(this WebApplicationBuilder builder)
