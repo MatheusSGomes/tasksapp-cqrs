@@ -1,7 +1,7 @@
 namespace Application.UserCQ.ViewModels;
 
 // Tipo de retorno
-public class UserInfoViewModel
+public record UserInfoViewModel
 {
     public string? Name { get; set; }
     public string? Surname { get; set; }

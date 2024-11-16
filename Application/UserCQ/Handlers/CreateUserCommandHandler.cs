@@ -1,3 +1,4 @@
+using Application.Response;
 using Application.UserCQ.Commands;
 using Application.UserCQ.ViewModels;
 using Domain.Entity;
@@ -8,11 +9,11 @@ namespace Application.UserCQ.Handlers;
 
 // IRequestHandler<TipoRequisição, TipoRetorno>
 // Método Handle retorna: Task<TipoRetorno>
-public class CreateUserCommandHandler(TasksDbContext context) : IRequestHandler<CreateUserCommand, UserInfoViewModel>
+public class CreateUserCommandHandler(TasksDbContext context) : IRequestHandler<CreateUserCommand, ResponseBase<UserInfoViewModel?>>
 {
     private readonly TasksDbContext _context = context;
 
-    public async Task<UserInfoViewModel> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseBase<UserInfoViewModel?>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var user = new User
         {
@@ -39,6 +40,10 @@ public class CreateUserCommandHandler(TasksDbContext context) : IRequestHandler<
             TokenJWT = Guid.NewGuid().ToString()
         };
 
-        return userInfo;
+        return new ResponseBase<UserInfoViewModel?>
+        {
+            ResponseInfo = null,
+            Value = userInfo
+        };
     }
 }
