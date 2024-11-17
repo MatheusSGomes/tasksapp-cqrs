@@ -1,10 +1,13 @@
 using System.Reflection;
+using System.Text;
 using Application.Mappings;
 using Application.UserCQ.Commands;
 using Application.UserCQ.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infra.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -35,6 +38,22 @@ public static class BuilderExtensions
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
+    }
+
+    public static void AddJwtAuth(this WebApplicationBuilder builder)
+    {
+        var configuration = builder.Configuration;
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateLifetime = true,
+                ValidAudience = configuration["JWT:Audience"],
+                ValidIssuer = configuration["JWT:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]!)),
+            });
     }
 
     public static void AddServices(this WebApplicationBuilder builder)
