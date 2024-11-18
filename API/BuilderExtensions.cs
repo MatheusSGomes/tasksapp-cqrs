@@ -3,6 +3,7 @@ using System.Text;
 using Application.Mappings;
 using Application.UserCQ.Commands;
 using Application.UserCQ.Validators;
+using Domain.Abstractions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infra.Persistence;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Services.AuthService;
 
 namespace API;
 
@@ -84,5 +86,10 @@ public static class BuilderExtensions
     public static void AddMapper(this WebApplicationBuilder builder)
     {
         builder.Services.AddAutoMapper(typeof(ProfileMappings).Assembly);
+    }
+
+    public static void AddInjections(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IAuthService, AuthService>();
     }
 }
