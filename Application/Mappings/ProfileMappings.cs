@@ -7,6 +7,7 @@ namespace Application.Mappings;
 
 public class ProfileMappings : Profile
 {
+    // OBS: Essa classe não pode receber a injeção do AuthService para gerar o token
     public ProfileMappings()
     {
         // CreateMap<ClasseDeOrigemOuRecurso, ClasseDeDestinoASerMapeado>
@@ -19,8 +20,9 @@ public class ProfileMappings : Profile
             .ForMember(x => x.RefreshToken, x => x.MapFrom(x => GenerateGuid()))
             .ForMember(x => x.RefreshTokenExpirationTime, x => x.MapFrom(x => AddFiveDays()));
 
+        // Recebe objeto User -> transforma para -> UserInfoViewModel
         CreateMap<User, UserInfoViewModel>()
-            .ForMember(x => x.TokenJWT, x => x.MapFrom(x => GenerateGuid()));
+            .ForMember(x => x.TokenJWT, x => x.AllowNull());
     }
 
     private DateTime AddFiveDays()

@@ -29,7 +29,7 @@ public class UserController(IMediator mediator) : ControllerBase
     ///     "surname": "Doe",
     ///     "username": "JohnDoe",
     ///     "email": "JohnDoe@email.com",
-    ///     "password": 12345678",
+    ///     "password": "12345678",
     /// }
     /// ```
     /// </remarks>
