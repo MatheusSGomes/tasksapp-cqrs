@@ -20,6 +20,7 @@ public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IA
     public async Task<ResponseBase<UserInfoViewModel?>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var user = _mapper.Map<User>(request); // Passo para o auto mapper: CreateUserCommand -> recebo -> User
+        user.RefreshToken = _authService.GenerateRefreshToken();
 
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();

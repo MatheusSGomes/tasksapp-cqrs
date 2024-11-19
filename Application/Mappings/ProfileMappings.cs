@@ -17,17 +17,18 @@ public class ProfileMappings : Profile
         // MapFrom fará uma atribuição ao campo RefreshToken
         CreateMap<CreateUserCommand, User>()
             .ForMember(x => x.PasswordHash, x => x.MapFrom(x => x.Password))
-            .ForMember(x => x.RefreshToken, x => x.MapFrom(x => GenerateGuid()))
-            .ForMember(x => x.RefreshTokenExpirationTime, x => x.MapFrom(x => AddFiveDays()));
+            .ForMember(x => x.RefreshToken, x => x.AllowNull())
+            .ForMember(x => x.RefreshTokenExpirationTime, x => x.MapFrom(x => AddTenDays()));
 
         // Recebe objeto User -> transforma para -> UserInfoViewModel
         CreateMap<User, UserInfoViewModel>()
             .ForMember(x => x.TokenJWT, x => x.AllowNull());
     }
 
-    private DateTime AddFiveDays()
+    private DateTime AddTenDays()
     {
-        return DateTime.Now.AddDays(5);
+        // RefreshToken tem que ter validade maior do que Token
+        return DateTime.Now.AddDays(10);
     }
 
     private string GenerateGuid()

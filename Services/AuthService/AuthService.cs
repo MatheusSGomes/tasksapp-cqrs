@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Domain.Abstractions;
 using Microsoft.Extensions.Configuration;
@@ -43,5 +44,16 @@ public class AuthService(IConfiguration configuration) : IAuthService
         var tokenHanlder = new JwtSecurityTokenHandler();
 
         return tokenHanlder.WriteToken(token);
+    }
+
+    public string GenerateRefreshToken()
+    {
+        var secureRandomBytes = new byte[128];
+
+        using var randomNumberGenerator = RandomNumberGenerator.Create();
+
+        randomNumberGenerator.GetBytes(secureRandomBytes);
+
+        return Convert.ToBase64String(secureRandomBytes);
     }
 }
