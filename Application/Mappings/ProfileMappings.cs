@@ -16,7 +16,7 @@ public class ProfileMappings : Profile
         // ForMember - usado quando existem campos nulos entre propriedades
         // MapFrom fará uma atribuição ao campo RefreshToken
         CreateMap<CreateUserCommand, User>()
-            .ForMember(x => x.PasswordHash, x => x.MapFrom(x => x.Password))
+            .ForMember(x => x.PasswordHash, x => x.AllowNull())
             .ForMember(x => x.RefreshToken, x => x.AllowNull())
             .ForMember(x => x.RefreshTokenExpirationTime, x => x.MapFrom(x => AddTenDays()));
 

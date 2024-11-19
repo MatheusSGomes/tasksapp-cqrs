@@ -21,6 +21,7 @@ public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IA
     {
         var user = _mapper.Map<User>(request); // Passo para o auto mapper: CreateUserCommand -> recebo -> User
         user.RefreshToken = _authService.GenerateRefreshToken();
+        user.PasswordHash = _authService.HashingPassword(request.Password!);
 
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
