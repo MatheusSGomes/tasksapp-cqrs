@@ -65,13 +65,13 @@ public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IA
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
 
-        var userInfoVM = _mapper.Map<RefreshTokenViewModel>(user); // Passo User -> recebo -> UserInfoViewModel
-        userInfoVM.TokenJWT = _authService.GenerateJWT(user.Email!, user.Username!);
+        var refreshTokenViewModel = _mapper.Map<RefreshTokenViewModel>(user); // Passo User -> recebo -> UserInfoViewModel
+        refreshTokenViewModel.TokenJWT = _authService.GenerateJWT(user.Email!, user.Username!);
 
         return new ResponseBase<RefreshTokenViewModel?>
         {
             ResponseInfo = null,
-            Value = userInfoVM
+            Value = refreshTokenViewModel
         };
     }
 }
