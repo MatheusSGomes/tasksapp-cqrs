@@ -55,6 +55,14 @@ public static class BuilderExtensions
                 ValidAudience = configuration["JWT:Audience"],
                 ValidIssuer = configuration["JWT:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]!)),
+            })
+            // Configuração do Cookies HTTP Read Only
+            .AddCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Exige que requisição seja HTTPS
+                options.Cookie.SameSite = SameSiteMode.Strict; // Bloquea cookie de terceiros (só aceita a origem definida)
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
     }
 
