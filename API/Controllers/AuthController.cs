@@ -11,7 +11,7 @@ namespace API.Controllers;
 /// <param name="mediator"></param>
 [ApiController]
 [Route("[controller]")]
-public class UserController(IMediator mediator) : ControllerBase
+public class AuthController(IMediator mediator) : ControllerBase
 {
     public readonly IMediator _mediator = mediator;
 
