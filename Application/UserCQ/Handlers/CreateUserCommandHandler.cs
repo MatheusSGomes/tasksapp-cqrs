@@ -12,18 +12,18 @@ namespace Application.UserCQ.Handlers;
 
 // IRequestHandler<TipoRequisição, TipoRetorno>
 // Método Handle retorna: Task<TipoRetorno>
-public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, ResponseBase<UserInfoViewModel?>>
+public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, ResponseBase<RefreshTokenViewModel?>>
 {
     private readonly TasksDbContext _context = context;
     private readonly IMapper _mapper = mapper;
     private readonly IAuthService _authService = authService;
 
-    public async Task<ResponseBase<UserInfoViewModel?>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseBase<RefreshTokenViewModel?>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var isUniqueEmailAndUsername = _authService.UniqueEmailAndUsername(request.Email!, request.Username!);
 
         if (isUniqueEmailAndUsername is ValidationFieldsUserEnum.EmailUnavailable)
-            return new ResponseBase<UserInfoViewModel?>
+            return new ResponseBase<RefreshTokenViewModel?>
             {
                 ResponseInfo = new()
                 {
@@ -35,7 +35,7 @@ public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IA
             };
 
         if (isUniqueEmailAndUsername is ValidationFieldsUserEnum.UsernameUnavailable)
-            return new ResponseBase<UserInfoViewModel?>
+            return new ResponseBase<RefreshTokenViewModel?>
             {
                 ResponseInfo = new()
                 {
@@ -47,7 +47,7 @@ public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IA
             };
 
         if (isUniqueEmailAndUsername is ValidationFieldsUserEnum.UsernameAndEmailUnavailable)
-            return new ResponseBase<UserInfoViewModel?>
+            return new ResponseBase<RefreshTokenViewModel?>
             {
                 ResponseInfo = new()
                 {
@@ -65,10 +65,10 @@ public class CreateUserCommandHandler(TasksDbContext context, IMapper mapper, IA
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
 
-        var userInfoVM = _mapper.Map<UserInfoViewModel>(user); // Passo User -> recebo -> UserInfoViewModel
+        var userInfoVM = _mapper.Map<RefreshTokenViewModel>(user); // Passo User -> recebo -> UserInfoViewModel
         userInfoVM.TokenJWT = _authService.GenerateJWT(user.Email!, user.Username!);
 
-        return new ResponseBase<UserInfoViewModel?>
+        return new ResponseBase<RefreshTokenViewModel?>
         {
             ResponseInfo = null,
             Value = userInfoVM

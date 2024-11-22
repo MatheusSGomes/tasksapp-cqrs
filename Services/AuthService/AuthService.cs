@@ -84,9 +84,12 @@ public class AuthService(IConfiguration configuration, TasksDbContext context) :
         if (emailExists)
             return ValidationFieldsUserEnum.EmailUnavailable;
 
-        if (usernameExists)
+        else if (usernameExists)
             return ValidationFieldsUserEnum.UsernameUnavailable;
 
-        return ValidationFieldsUserEnum.UsernameAndEmailUnavailable;
+        else if (emailExists && usernameExists)
+            return ValidationFieldsUserEnum.UsernameAndEmailUnavailable;
+
+        return ValidationFieldsUserEnum.FieldsOk;
     }
 }

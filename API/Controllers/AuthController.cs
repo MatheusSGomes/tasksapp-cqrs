@@ -11,9 +11,10 @@ namespace API.Controllers;
 /// <param name="mediator"></param>
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IMediator mediator) : ControllerBase
+public class AuthController(IMediator mediator, IConfiguration configuration) : ControllerBase
 {
     public readonly IMediator _mediator = mediator;
+    private readonly IConfiguration _configuration = configuration;
 
     /// <summary>
     /// Rota responsável pela criação de um usuário
@@ -41,6 +42,37 @@ public class AuthController(IMediator mediator) : ControllerBase
         // Enviar o command para o Mediator.
         // Mediator fará o command chegar no CreateUserCommandHandler.
         var result = await _mediator.Send(command);
-        return Ok(result);
+
+        if (result.ResponseInfo is null)
+        {
+            var userInfo = result.Value;
+
+            if (userInfo is not null)
+            {
+                var cookieOptionsToken = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7)
+                };
+
+                _ = int.TryParse(_configuration["JWT:RefreshTokenExpirationTimeInDays"], out int refreshTokenExpirationTimeInDays);
+
+                var cookieOptionsRefreshToken = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = DateTimeOffset.UtcNow.AddDays(refreshTokenExpirationTimeInDays)
+                };
+
+                // Adicionar cookie na response de retorno
+                Response.Cookies.Append("jwt", result.Value!.TokenJWT!, cookieOptionsToken);
+                Response.Cookies.Append("refreshToken", result.Value!.RefreshToken!, cookieOptionsRefreshToken);
+
+                return Ok(result);
+            }
+        }
+
+        return BadRequest(result);
     }
 }

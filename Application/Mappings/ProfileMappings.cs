@@ -21,8 +21,8 @@ public class ProfileMappings : Profile
             .ForMember(x => x.RefreshTokenExpirationTime, x => x.MapFrom(x => AddTenDays()));
 
         // Recebe objeto User -> transforma para -> UserInfoViewModel
-        CreateMap<User, UserInfoViewModel>()
-            .ForMember(x => x.TokenJWT, x => x.AllowNull());
+        // CreateMap<User, UserInfoViewModel>()
+        //     .ForMember(x => x.TokenJWT, x => x.AllowNull());
     }
 
     private DateTime AddTenDays()

@@ -4,5 +4,6 @@ public enum ValidationFieldsUserEnum
 {
     UsernameUnavailable,
     EmailUnavailable,
-    UsernameAndEmailUnavailable
+    UsernameAndEmailUnavailable,
+    FieldsOk
 }

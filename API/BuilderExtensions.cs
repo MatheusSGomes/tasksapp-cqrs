@@ -62,7 +62,7 @@ public static class BuilderExtensions
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Exige que requisição seja HTTPS
                 options.Cookie.SameSite = SameSiteMode.Strict; // Bloquea cookie de terceiros (só aceita a origem definida)
-                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                options.ExpireTimeSpan = TimeSpan.FromDays(7); // Verifica se o token tem menos de 7 dias (se não está expirado)
             });
     }
 
