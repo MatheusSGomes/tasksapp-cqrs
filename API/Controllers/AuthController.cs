@@ -1,5 +1,6 @@
 using Application.UserCQ.Commands;
 using Application.UserCQ.ViewModels;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,11 @@ namespace API.Controllers;
 /// <param name="mediator"></param>
 [ApiController]
 [Route("[controller]")]
-public class AuthController(IMediator mediator, IConfiguration configuration) : ControllerBase
+public class AuthController(IMediator mediator, IConfiguration configuration, IMapper mapper) : ControllerBase
 {
     public readonly IMediator _mediator = mediator;
     private readonly IConfiguration _configuration = configuration;
+    private readonly IMapper _mapper = mapper;
 
     /// <summary>
     /// Rota responsável pela criação de um usuário
@@ -69,7 +71,8 @@ public class AuthController(IMediator mediator, IConfiguration configuration) : 
                 Response.Cookies.Append("jwt", result.Value!.TokenJWT!, cookieOptionsToken);
                 Response.Cookies.Append("refreshToken", result.Value!.RefreshToken!, cookieOptionsRefreshToken);
 
-                return Ok(result);
+                var res = result.Value;
+                return Ok(_mapper.Map<UserInfoViewModel>(res));
             }
         }
 
