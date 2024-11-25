@@ -57,6 +57,7 @@ public class LoginUserCommandHandler(TasksDbContext context, IAuthService authSe
         user.RefreshToken = _authService.GenerateRefreshToken();
         user.RefreshTokenExpirationTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
 
+        _context.Update(user);
         await _context.SaveChangesAsync();
 
         RefreshTokenViewModel refreshTokenVM = _mapper.Map<RefreshTokenViewModel>(user);
