@@ -7,6 +7,8 @@ using Domain.Abstractions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infra.Persistence;
+using Infra.Repository.IRepositories;
+using Infra.Repository.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
@@ -99,5 +101,10 @@ public static class BuilderExtensions
     public static void AddInjections(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IAuthService, AuthService>();
+    }
+
+    public static void AddRepositories(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
     }
 }
