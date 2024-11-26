@@ -9,6 +9,7 @@ using FluentValidation.AspNetCore;
 using Infra.Persistence;
 using Infra.Repository.IRepositories;
 using Infra.Repository.Repositories;
+using Infra.Repository.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
@@ -106,5 +107,6 @@ public static class BuilderExtensions
     public static void AddRepositories(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
