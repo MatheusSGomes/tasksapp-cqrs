@@ -12,10 +12,8 @@ public interface IBaseRepository<T> where T : class
      * Func<TipoRecebido, TipoRetornado> - Recebe o tipo genérico T, retorna boolean
      * O uso será: Get(x => x.Id == variavel);
      */
-    T? Get(Expression<Func<T, bool>> expression);
-
+    Task<T?> Get(Expression<Func<T, bool>> expression);
     IEnumerable<T> GetAll();
-
     Task<T> Create(T command);
     Task<T> Update(T commandUpdate);
     Task Delete(Guid id);
