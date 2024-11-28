@@ -12,9 +12,9 @@ namespace Application.UserCQ.Handlers;
 
 // IRequestHandler<TipoRequisição, TipoRetorno>
 // Método Handle retorna: Task<TipoRetorno>
-public class CreateUserCommandHandler(UnitOfWork unitOfWork, IMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, ResponseBase<RefreshTokenViewModel>>
+public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, ResponseBase<RefreshTokenViewModel>>
 {
-    private readonly UnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly IAuthService _authService = authService;
 
