@@ -11,6 +11,6 @@ public static class WorkspacesController
 {
     public static void WorkspacesRoutes(this WebApplication app)
     {
-        app.MapGet("", () => {});
+        app.MapGet("/workspaces/ola-mundo", () => "Olá mundo!");
     }
 }

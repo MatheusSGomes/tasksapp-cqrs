@@ -12,18 +12,18 @@ namespace Application.UserCQ.Handlers;
 
 // IRequestHandler<TipoRequisição, TipoRetorno>
 // Método Handle retorna: Task<TipoRetorno>
-public class CreateUserCommandHandler(UnitOfWork unitOfWork, IMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, ResponseBase<RefreshTokenViewModel?>>
+public class CreateUserCommandHandler(UnitOfWork unitOfWork, IMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, ResponseBase<RefreshTokenViewModel>>
 {
     private readonly UnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly IAuthService _authService = authService;
 
-    public async Task<ResponseBase<RefreshTokenViewModel?>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseBase<RefreshTokenViewModel>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var isUniqueEmailAndUsername = _authService.UniqueEmailAndUsername(request.Email!, request.Username!);
 
         if (isUniqueEmailAndUsername is ValidationFieldsUserEnum.EmailUnavailable)
-            return new ResponseBase<RefreshTokenViewModel?>
+            return new ResponseBase<RefreshTokenViewModel>
             {
                 ResponseInfo = new()
                 {
@@ -35,7 +35,7 @@ public class CreateUserCommandHandler(UnitOfWork unitOfWork, IMapper mapper, IAu
             };
 
         if (isUniqueEmailAndUsername is ValidationFieldsUserEnum.UsernameUnavailable)
-            return new ResponseBase<RefreshTokenViewModel?>
+            return new ResponseBase<RefreshTokenViewModel>
             {
                 ResponseInfo = new()
                 {
@@ -47,7 +47,7 @@ public class CreateUserCommandHandler(UnitOfWork unitOfWork, IMapper mapper, IAu
             };
 
         if (isUniqueEmailAndUsername is ValidationFieldsUserEnum.UsernameAndEmailUnavailable)
-            return new ResponseBase<RefreshTokenViewModel?>
+            return new ResponseBase<RefreshTokenViewModel>
             {
                 ResponseInfo = new()
                 {
@@ -75,7 +75,7 @@ public class CreateUserCommandHandler(UnitOfWork unitOfWork, IMapper mapper, IAu
         var refreshTokenViewModel = _mapper.Map<RefreshTokenViewModel>(user); // Passo User -> recebo -> UserInfoViewModel
         refreshTokenViewModel.TokenJWT = _authService.GenerateJWT(user.Email!, user.Username!);
 
-        return new ResponseBase<RefreshTokenViewModel?>
+        return new ResponseBase<RefreshTokenViewModel>
         {
             ResponseInfo = null,
             Value = refreshTokenViewModel

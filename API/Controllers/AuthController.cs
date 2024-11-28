@@ -39,7 +39,7 @@ public class AuthController(IMediator mediator, IConfiguration configuration, IM
     /// </remarks>
     /// <response code="200">Retorna dados de um novo usuário</response>
     /// <response code="400">Se algum dado for digitado incorretamente</response>
-    [HttpPost("Create-User")]
+    [HttpPost("CreateUser")]
     public async Task<ActionResult<ResponseBase<UserInfoViewModel>>> CreateUser(CreateUserCommand command)
     {
         // Enviar o command para o Mediator.
