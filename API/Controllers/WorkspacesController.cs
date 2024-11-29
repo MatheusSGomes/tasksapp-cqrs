@@ -1,3 +1,7 @@
+using Application.UserCQ.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
 namespace API.Controllers;
 
 /*
@@ -14,6 +18,8 @@ public static class WorkspacesController
         var group = app.MapGroup("Workspaces") // Group (é a rota)
             .WithTags("Workspaces"); // Tags (agrupamento de rotas no Swagger)
 
-        group.MapGet("OlaMundo", () => "Olá mundo!");
+        /* Dica: Injeção do Mediator, sempre assíncrono */
+        group.MapPost("OlaMundo", async ([FromServices] IMediator _mediator, [FromBody] CreateUserCommand command) =>
+            await _mediator.Send(command));
     }
 }
