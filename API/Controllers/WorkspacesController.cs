@@ -11,6 +11,9 @@ public static class WorkspacesController
 {
     public static void WorkspacesRoutes(this WebApplication app)
     {
-        app.MapGet("/workspaces/ola-mundo", () => "Olá mundo!");
+        var group = app.MapGroup("Workspaces") // Group (é a rota)
+            .WithTags("Workspaces"); // Tags (agrupamento de rotas no Swagger)
+
+        group.MapGet("OlaMundo", () => "Olá mundo!");
     }
 }
