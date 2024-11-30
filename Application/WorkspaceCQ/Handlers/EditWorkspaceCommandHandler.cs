@@ -15,7 +15,7 @@ public class EditWorkspaceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
 
     public async Task<ResponseBase<WorkspaceViewModel>> Handle(EditWorkspaceCommand request, CancellationToken cancellationToken)
     {
-        var workspace = await _unitOfWork.WorkspaceRepository.Get(x => x.Id == request.Id);
+        var workspace = await _unitOfWork.WorkspaceRepository.GetWorkspaceAndUser(request.Id);
 
         if (workspace is null)
         {
