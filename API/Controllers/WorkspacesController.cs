@@ -43,16 +43,21 @@ public static class WorkspacesController
         var result = await _mediator.Send(command);
 
         if (result.ResponseInfo is null)
-        {
             return Results.Ok(result.Value);
-        }
 
         return Results.BadRequest(result.ResponseInfo);
     }
 
-    public static async Task<IResult> EditWorkspace([FromServices] IMediator _mediator)
+    public static async Task<IResult> EditWorkspace(
+        [FromServices] IMediator _mediator,
+        [FromBody] EditWorkspaceCommand command)
     {
-        throw new NotImplementedException();
+        var result = await _mediator.Send(command);
+
+        if (result.ResponseInfo is null)
+            return Results.Ok(result.Value);
+
+        return Results.BadRequest(result.ResponseInfo);
     }
 
     public static async Task<IResult> DeleteWorkspace([FromServices] IMediator _mediator)
