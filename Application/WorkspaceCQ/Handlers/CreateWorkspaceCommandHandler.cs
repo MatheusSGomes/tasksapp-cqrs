@@ -8,18 +8,18 @@ using MediatR;
 
 namespace Application.WorkspaceCQ.Handlers;
 
-public class CreateWorkspaceHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<CreateWorkspaceCommand, ResponseBase<CreateWorkspaceViewModel>>
+public class CreateWorkspaceHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<CreateWorkspaceCommand, ResponseBase<WorkspaceViewModel>>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<ResponseBase<CreateWorkspaceViewModel>> Handle(CreateWorkspaceCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseBase<WorkspaceViewModel>> Handle(CreateWorkspaceCommand request, CancellationToken cancellationToken)
     {
         var user = await _unitOfWork.UserRepository.Get(x => x.Id == request.UserId);
 
         if (user is null)
         {
-            return new ResponseBase<CreateWorkspaceViewModel>
+            return new ResponseBase<WorkspaceViewModel>
             {
                 ResponseInfo = new ResponseInfo
                 {
@@ -39,10 +39,10 @@ public class CreateWorkspaceHandler(IUnitOfWork unitOfWork, IMapper mapper) : IR
         await _unitOfWork.WorkspaceRepository.Create(workspace);
         _unitOfWork.Commit();
 
-        return new ResponseBase<CreateWorkspaceViewModel>
+        return new ResponseBase<WorkspaceViewModel>
         {
             ResponseInfo = null,
-            Value = _mapper.Map<CreateWorkspaceViewModel>(workspace)
+            Value = _mapper.Map<WorkspaceViewModel>(workspace)
         };
     }
 }
