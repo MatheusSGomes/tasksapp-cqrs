@@ -97,6 +97,7 @@ public static class BuilderExtensions
     public static void AddMapper(this WebApplicationBuilder builder)
     {
         builder.Services.AddAutoMapper(typeof(ProfileMappings).Assembly);
+        builder.Services.AddAutoMapper(typeof(WorkspaceMappings).Assembly);
     }
 
     public static void AddInjections(this WebApplicationBuilder builder)
@@ -108,5 +109,6 @@ public static class BuilderExtensions
     {
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
     }
 }
