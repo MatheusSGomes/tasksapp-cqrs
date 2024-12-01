@@ -16,5 +16,5 @@ public interface IBaseRepository<T> where T : class
     IEnumerable<T> GetAll();
     Task<T> Create(T command);
     Task<T> Update(T commandUpdate);
-    Task Delete(Guid id);
+    Task Delete(T entity);
 }

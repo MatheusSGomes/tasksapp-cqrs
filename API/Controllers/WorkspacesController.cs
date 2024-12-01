@@ -31,7 +31,7 @@ public static class WorkspacesController
 
         group.MapPost("create-workspace", CreateWorkspace)/*.RequireAuthorization()*/;
         group.MapPut("edit-workspace", EditWorkspace);
-        group.MapDelete("delete-workspace", DeleteWorkspace);
+        group.MapDelete("delete-workspace/{workspaceId}", DeleteWorkspace);
         group.MapGet("get-all-workspaces", GetAllWorkspaces);
         group.MapGet("get-workspace", GetWorkspace);
     }
@@ -60,9 +60,19 @@ public static class WorkspacesController
         return Results.BadRequest(result.ResponseInfo);
     }
 
-    public static async Task<IResult> DeleteWorkspace([FromServices] IMediator _mediator)
+    public static async Task<IResult> DeleteWorkspace(
+        [FromServices] IMediator _mediator,
+        [FromQuery] Guid workspaceId)
     {
-        throw new NotImplementedException();
+        var result = await _mediator.Send(new DeleteWorkspaceCommand
+        {
+            Id = workspaceId
+        });
+
+        if (result.ResponseInfo is null)
+            return Results.NoContent();
+
+        return Results.BadRequest(result.ResponseInfo);
     }
 
     public static async Task<IResult> GetAllWorkspaces([FromServices] IMediator _mediator)

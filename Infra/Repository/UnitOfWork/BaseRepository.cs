@@ -15,9 +15,9 @@ public class BaseRepository<T>(TasksDbContext context) : IBaseRepository<T> wher
         return command;
     }
 
-    public Task Delete(Guid id)
+    public Task Delete(T entity)
     {
-        _context.Remove(id);
+        _context.Set<T>().Remove(entity);
         return Task.CompletedTask;
     }
 
