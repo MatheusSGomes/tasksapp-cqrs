@@ -25,6 +25,13 @@ public class DeleteWorkspaceCommandHandler(IUnitOfWork unitOfWork) : IRequestHan
                 Value = null
             };
 
+        var listCards = _unitOfWork.ListCardsRepository
+            .GetAll()
+            .Where(x => x.Workspace == workspace)
+            .ToList();
+
+        await _unitOfWork.ListCardsRepository.DeleteRange(listCards);
+
         await _unitOfWork.WorkspaceRepository.Delete(workspace);
         _unitOfWork.Commit();
 

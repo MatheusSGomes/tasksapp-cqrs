@@ -110,5 +110,6 @@ public static class BuilderExtensions
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+        builder.Services.AddScoped<IListCardsRepository, ListCardsRepository>();
     }
 }

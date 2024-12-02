@@ -38,4 +38,10 @@ public class BaseRepository<T>(TasksDbContext context) : IBaseRepository<T> wher
         _context.Set<T>().Update(commandUpdate);
         return commandUpdate;
     }
+
+    public Task DeleteRange(List<T> range)
+    {
+        _context.Set<T>().RemoveRange(range);
+        return Task.CompletedTask;
+    }
 }

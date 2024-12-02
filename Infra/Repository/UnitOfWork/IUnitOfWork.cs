@@ -6,5 +6,6 @@ public interface IUnitOfWork
 {
     IUserRepository UserRepository { get; }
     IWorkspaceRepository WorkspaceRepository { get; }
+    IListCardsRepository ListCardsRepository { get; }
     void Commit();
 }

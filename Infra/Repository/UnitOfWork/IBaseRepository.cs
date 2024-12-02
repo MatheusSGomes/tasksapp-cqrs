@@ -17,4 +17,5 @@ public interface IBaseRepository<T> where T : class
     Task<T> Create(T command);
     Task<T> Update(T commandUpdate);
     Task Delete(T entity);
+    Task DeleteRange(List<T> range);
 }

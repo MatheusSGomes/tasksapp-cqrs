@@ -7,12 +7,14 @@ namespace Infra.Repository.UnitOfWork;
 public class UnitOfWork(
     TasksDbContext context,
     IUserRepository userRepository,
-    IWorkspaceRepository workspaceRepository) : IUnitOfWork
+    IWorkspaceRepository workspaceRepository,
+    IListCardsRepository listCardsRepository) : IUnitOfWork
 {
     private readonly TasksDbContext _context = context;
 
     public IUserRepository UserRepository => userRepository ?? new UserRepository(_context);
     public IWorkspaceRepository WorkspaceRepository => workspaceRepository ?? new WorkspaceRepository(_context);
+    public IListCardsRepository ListCardsRepository => listCardsRepository ?? new ListCardsRepository(_context);
 
     public void Commit()
     {
