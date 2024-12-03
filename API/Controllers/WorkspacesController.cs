@@ -1,4 +1,6 @@
+using Application.Response;
 using Application.WorkspaceCQ.Commands;
+using Application.WorkspaceCQ.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,8 +34,8 @@ public static class WorkspacesController
         group.MapPost("create-workspace", CreateWorkspace)/*.RequireAuthorization()*/;
         group.MapPut("edit-workspace", EditWorkspace);
         group.MapDelete("delete-workspace/{workspaceId}", DeleteWorkspace);
-        group.MapGet("get-all-workspaces", GetAllWorkspaces);
         group.MapGet("get-workspace", GetWorkspace);
+        group.MapGet("get-all-workspaces", GetAllWorkspaces);
     }
 
     public static async Task<IResult> CreateWorkspace(
@@ -75,12 +77,17 @@ public static class WorkspacesController
         return Results.BadRequest(result.ResponseInfo);
     }
 
-    public static async Task<IResult> GetAllWorkspaces([FromServices] IMediator _mediator)
+    public static async Task<IResult> GetWorkspace([FromServices] IMediator _mediator, Guid workspaceId)
     {
-        throw new NotImplementedException();
+        ResponseBase<WorkspaceViewModel> result = await _mediator.Send(new GetWorkspaceCommand { Id = workspaceId});
+
+        if (result.ResponseInfo is null)
+            return Results.Ok(result.Value);
+
+        return Results.BadRequest(result.ResponseInfo);
     }
 
-    public static async Task<IResult> GetWorkspace([FromServices] IMediator _mediator)
+    public static async Task<IResult> GetAllWorkspaces([FromServices] IMediator _mediator)
     {
         throw new NotImplementedException();
     }
