@@ -11,12 +11,12 @@ using Infra.Repository.IRepositories;
 using Infra.Repository.Repositories;
 using Infra.Repository.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Services.AuthService;
 
-namespace API;
+namespace API.Extensions;
 
 public static class BuilderExtensions
 {

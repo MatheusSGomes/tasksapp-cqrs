@@ -1,5 +1,5 @@
 using Application.Response;
-using Application.WorkspaceCQ.Commands;
+using Application.WorkspaceCQ.Queries;
 using Application.WorkspaceCQ.ViewModels;
 using AutoMapper;
 using Infra.Repository.UnitOfWork;
@@ -7,12 +7,12 @@ using MediatR;
 
 namespace Application.WorkspaceCQ.Handlers;
 
-public class GetWorkspaceCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetWorkspaceCommand, ResponseBase<WorkspaceViewModel>>
+public class GetWorkspaceQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetWorkspaceQuery, ResponseBase<WorkspaceViewModel>>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<ResponseBase<WorkspaceViewModel>> Handle(GetWorkspaceCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseBase<WorkspaceViewModel>> Handle(GetWorkspaceQuery request, CancellationToken cancellationToken)
     {
         var workspace = await _unitOfWork.WorkspaceRepository.GetWorkspaceAndUser(request.Id);
 
