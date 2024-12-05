@@ -1,7 +1,7 @@
 namespace Application.Utils;
 
 // Classe Genérica
-public class PaginatedList<T>
+public record PaginatedList<T>
 {
     public int TotalItems { get; private set; }
     public int CurrentPage { get; private set; }
