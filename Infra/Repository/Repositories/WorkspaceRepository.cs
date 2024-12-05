@@ -16,4 +16,12 @@ public class WorkspaceRepository(TasksDbContext context) : BaseRepository<Worksp
             .Include(x => x.User)
             .FirstOrDefaultAsync(x => x.Id == workspaceId);
     }
+
+    public async Task<List<Workspace>> GetAllWorkspacesAndUser(Guid userId)
+    {
+        return await _context.Workspaces
+            .Include(x => x.User)
+            .Where(x => x.User!.Id == userId)
+            .ToListAsync();
+    }
 }
